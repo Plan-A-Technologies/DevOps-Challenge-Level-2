@@ -3,17 +3,9 @@
 
 name: Check for Leaked Secrets using GitLeaks
 
-on: [pull_request, push, workflow_dispatch]
+on: [pull_request, push, workflow_dispatch, workflow_call]
 
 jobs:
-  scan:
-    name: GitLeaks Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2.3.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Added as Organization Secret
+  scan_for_leaked_secrets:
+    uses: Plan-A-Technologies/template-actions/.github/workflows/gitleaks.yml@main
+    secrets: inherit
